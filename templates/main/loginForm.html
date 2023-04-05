@@ -2,17 +2,13 @@
 <html>
     <body>
         <h1>Login</h1>
-        <form action="" method="post">
+        <form action="" onsubmit="" method="post">
             {% csrf_token %}
-            <input type="radio" id="student" name="userSelect" value="student">
-            <label for="student">Student</label><br>
-            <input type="radio" id="instructor" name="userSelect" value="instructor">
-            <label for="instructor">Instructor</label><br>
-            <input type="radio" id="admin" name="userSelect" value="admin">            
-            <label for="admin">Admin</label><br><br><br>
-
-            <label for="id">ID #: </label>
-            <input type="text" id="id" name="id"><br>
+            {{form}}
+            <br><br>
+            <input type="submit" id="submit" value="Log In">
+            <br>
+            {{errorMsg}}
         </form>
     </body>
 </html>
