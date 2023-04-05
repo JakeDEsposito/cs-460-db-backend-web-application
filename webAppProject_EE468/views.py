@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.template import loader
 from django.shortcuts import render
-from . import forms, models
+from . import forms
 
 def index(request):
     if request.method == 'POST':
@@ -16,10 +16,10 @@ def index(request):
             return render(request, 'main/loginForm.html', {'form': form, 'errorMsg': errorMsg})
     else:
         form = forms.LoginForm()
-        errorMsg = '';
+        errorMsg = ''
         return render(request, 'main/loginForm.html', {'form': form})
         
-def formCheck(formData):    
+def formCheck(formData):
     if formData['userID'].isnumeric(): 
         return True
     return False
