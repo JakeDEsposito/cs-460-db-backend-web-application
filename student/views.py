@@ -12,4 +12,5 @@ def index(request):
     else:
         courseSearch = forms.offeredCourses()
         errorMsg = 'GET'
+        #return render(request, 'main/noUser.html')
         return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
