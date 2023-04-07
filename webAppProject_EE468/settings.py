@@ -78,10 +78,12 @@ WSGI_APPLICATION = 'webAppProject_EE468.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'university',
-        'USER':'root',
-        'PASSWORD':'mypassword',
-        'HOST':'localhost'
+        'NAME': 'university_group_f',
+        'USER':'group_f',
+        'PASSWORD':'GeoJakEthLay',
+        #'HOST':'localhost'
+        'HOST':'128.153.13.175',
+        'PORT':'3306'
     }
 }
 
