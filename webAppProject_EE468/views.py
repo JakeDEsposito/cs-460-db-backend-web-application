@@ -10,6 +10,12 @@ def index(request):
             data = form.cleaned_data
             print(data)
             if formCheck(data):
+                request.session['userType'] = data['userType']
+                request.session['userID'] = data['userID']
+                
+                # localType = request.session.get('userID')
+                # localID = request.session.get('userID')
+                
                 errorMsg = 'Done'
                 return render(request, 'main/loginForm.html', {'form': form, 'errorMsg': errorMsg})
             errorMsg = 'ERROR: Invalid Login. Please Try Again.'
