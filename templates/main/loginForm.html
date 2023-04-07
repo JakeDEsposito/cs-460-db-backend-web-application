@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Login</h1>
+        <form action="" onsubmit="" method="post">
+            {% csrf_token %}
+            {{form}}
+            <br><br>
+            <input type="submit" id="submit" value="Log In">
+            <br>
+            {{errorMsg}}
+        </form>
+    </body>
+</html>
