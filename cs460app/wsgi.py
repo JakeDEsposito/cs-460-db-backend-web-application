@@ -1,5 +1,5 @@
 """
-WSGI config for webAppProject_EE468 project.
+WSGI config for cs460app project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'webAppProject_EE468.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cs460app.settings')
 
 application = get_wsgi_application()
