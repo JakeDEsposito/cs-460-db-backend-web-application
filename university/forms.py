@@ -25,7 +25,7 @@ TYPE = (
 )
 
 class LoginForm(forms.Form):
-    userType = forms.CharField(label='Select User Type: ', widget=forms.RadioSelect(choices = USER_TYPE))
+    userType = forms.CharField(label='Select User Type', widget=forms.RadioSelect(choices = USER_TYPE))
     userID = forms.CharField(label='ID #', min_length=5, max_length=8)
     
 class studentForm(forms.Form):
