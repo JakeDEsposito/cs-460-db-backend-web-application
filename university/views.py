@@ -54,10 +54,10 @@ def student(request):
     else:
         courseSearch = forms.studentForm()
         errorMsg = 'GET'
-        #return render(request, 'main/noUser.html')
         return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
 
 def admin(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
     return render(request, 'admin/admin.html')
 
 # Functions for Views
@@ -68,19 +68,16 @@ def formCheck(formData):
     return False
 
 def queryLogin(uType, uID):
-    queryCount = 0
     if (uType == 'student'):
         queryData = models.Student.objects.filter(student_id = uID)
-        queryCount = queryData.count()
     elif (uType == 'instructor'):
         queryData = models.Instructor.objects.filter(id = uID)
-        queryCount = queryData.count()
     else:
-        queryData #Need Admin Table
+        queryData = models.Admin.objects.filter(adminid = uID)
     for r in queryData:
         print(r)
-    print(queryCount)
-    return (queryCount > 0)
+    print(queryData.count())
+    return (queryData.count() > 0)
 
 def login(uType):
     if (uType == 'student'):
