@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <h1>Courses Offered: Lookup</h1>
+        <h1>Courses Offered</h1>
         <form action="", onsubmit="", method="post">
             {% csrf_token %}
             {{lookupForm|linebreaks}}
             <input type="submit" id="submit" value="Search">
             <br>
         </form>
+        <hr>
         {{errorMsg}}
     </body>
 </html>
