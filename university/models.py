@@ -49,8 +49,8 @@ class Instructor(models.Model):
 
 
 class Prereq(models.Model):
-    course = models.ForeignKey(Course, models.DO_NOTHING, primary_key=True)
-    prereq = models.ForeignKey(Course, models.DO_NOTHING)
+    course = models.ForeignKey(Course, models.DO_NOTHING, primary_key=True, related_name='prereq_base_course')
+    prereq = models.ForeignKey(Course, models.DO_NOTHING, related_name='prereq_required_course')
 
     class Meta:
         managed = False
@@ -85,11 +85,11 @@ class Student(models.Model):
 
 
 class Takes(models.Model):
-    student = models.ForeignKey(Student, models.DO_NOTHING, primary_key=True)
-    course = models.ForeignKey(Section, models.DO_NOTHING)
-    sec = models.ForeignKey(Section, models.DO_NOTHING)
-    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester')
-    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year')
+    student = models.ForeignKey(Student, models.DO_NOTHING, primary_key=True, related_name='takes_student')
+    course = models.ForeignKey(Section, models.DO_NOTHING, related_name='takes_courseID')
+    sec = models.ForeignKey(Section, models.DO_NOTHING, related_name='takes_section')
+    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', related_name='takes_semester')
+    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', related_name='takes_year')
     grade = models.CharField(max_length=3, blank=True, null=True)
 
     class Meta:
@@ -99,11 +99,11 @@ class Takes(models.Model):
 
 
 class Teaches(models.Model):
-    course = models.ForeignKey(Section, models.DO_NOTHING, primary_key=True)
-    sec = models.ForeignKey(Section, models.DO_NOTHING)
-    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester')
-    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year')
-    teacher = models.ForeignKey(Instructor, models.DO_NOTHING)
+    course = models.ForeignKey(Section, models.DO_NOTHING, primary_key=True, related_name='teaches_courseID')
+    sec = models.ForeignKey(Section, models.DO_NOTHING, related_name='teached_section')
+    semester = models.ForeignKey(Section, models.DO_NOTHING, db_column='semester', related_name='teaches_semester')
+    year = models.ForeignKey(Section, models.DO_NOTHING, db_column='year', related_name='teaches_year')
+    teacher = models.ForeignKey(Instructor, models.DO_NOTHING, related_name='teaches_instructor')
 
     class Meta:
         managed = False
