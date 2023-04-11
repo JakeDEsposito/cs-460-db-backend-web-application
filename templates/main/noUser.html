@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html>
     <body>
-        <h1>No One's Logged In</h1>
+        <h1>Invalid Log In</h1>
         <h2>Please try again</h2>
-        <form action="" method="post">
-            {% csrf_token %}
+        <form action="{% url 'index' %}" method="get">
             <br>
             <button type"submit" id="back">Go Back</button>
         </form>

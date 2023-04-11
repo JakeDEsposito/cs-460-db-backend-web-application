@@ -17,13 +17,17 @@
     <h3>Welcome to the admin page</h3>
     <br></br>
     <body>
-<label for="list">Information to view:</label>
+        <h1>Administrator Queries</h1>
+    <label for="list">Information to view:</label>
     <select id="Fs", method = "Fs">
         <option value="List of professors">listprof</option>
         <option value="Table of Salaries">salaries</option>
         <option value="Professor performance">salary</option>
     </select>
-
+    <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type"submit" id="back">Log Out</button>
+        </form>
     </body>
 </html>
+
 

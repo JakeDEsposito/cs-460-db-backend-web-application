@@ -6,6 +6,4 @@ urlpatterns = [
     path('F1', views.F1, name='F1'),
     path('F2', views.F2, name='F2'),
     path('F3', views.F3, name='F3'),
-
-
 ]

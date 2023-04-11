@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type"submit" id="back">Log Out</button>
+        </form>
+        <h1>Professor Information</h1>
+        <form action="", onsubmit="", method="post">
+            {% csrf_token %}
+            {{lookupForm}}
+            <input type="submit" id="submit" value="Search">
+            <br>
+        </form>
+        <hr>
+        {{errorMsg}}
+    </body>
+</html>
