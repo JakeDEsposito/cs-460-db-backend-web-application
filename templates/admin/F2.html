@@ -1,8 +1,14 @@
-#F2. Salary: Create a table of min/max/average salaries by dept.
+<!--#F2. Salary: Create a table of min/max/average salaries by dept.-->
 
 <!DOCTYPE html>
 <html>
     <body>
+        <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type"submit" id="back">Log Out</button>
+        </form>
+        <form action="{% url 'admin' %}" method="get" style="float: right;">
+            <button type"submit" id="back">Back to Admin Home</button>
+        </form>
         <h1>Professors' Salaries</h1>
 # SQL table here
     </body>
