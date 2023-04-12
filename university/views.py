@@ -59,6 +59,12 @@ def student(request):
 def admin(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
     return render(request, 'admin/admin.html')
+def F1(request):
+        return render(request, 'admin/F1.html')
+def F2(request):
+        return render(request, 'admin/F2.html')
+def F3(request):
+        return render(request, 'admin/F3.html')
 
 # Functions for Views
 
