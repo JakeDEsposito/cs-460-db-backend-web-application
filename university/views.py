@@ -58,7 +58,23 @@ def student(request):
 
 def admin(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    return render(request, 'admin/admin.html')
+    if request.method == "POST":
+        form = forms.adminQuerySelect(request.POST)
+        if form.is_valid():
+            queryNumVal = form.cleaned_data['queryChoice']
+            return getAdminSubpage(queryNumVal)
+    else:
+        form = forms.adminQuerySelect()   
+        return render(request, 'admin/admin.html', {'adminChooseQuery': form})
+
+def roster(request):
+    return render(request, 'admin/F1.html')
+
+def salary(request):
+    return render(request, 'admin/F2.html')
+    
+def preformance(request):
+    return render(request, 'admin/F3.html')
 
 # Functions for Views
 
@@ -86,3 +102,12 @@ def login(uType):
         return redirect("instructor")
     else:
         return redirect("admin")
+    
+def getAdminSubpage(queryNum):
+    queryNum = int(queryNum)
+    if queryNum == 1:
+        return redirect("roster")
+    elif queryNum == 2:
+        return redirect("salary")
+    else:
+        return redirect("preformance")
