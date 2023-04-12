@@ -1,16 +1,25 @@
+
 # F1. Roster: Create a list of professors sorted by one of the following 
 #             criteria chosen by the admin: 
-#               (1) by name (2) by dept, or (3) by salary. 
+#               (1) by name (2) by dept, or (3) by salary.
+
 <!DOCTYPE html>
 <html>
     <body>
+        <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Log Out</button>
+        </form>
+        <form action="{% url 'admin' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Back to Admin Home</button>
+        </form>
+
         <h1>List of professors</h1>
-<label for="list">Show professors sorted by one of the following criteria:</label>
-    <select id="order", method = "order">
-        <option value="name">name</option>
-        <option value="department">department</option>
-        <option value="salary">salary</option>
-    </select>
+        <label for="list">Show professors sorted by one of the following criteria:</label>
+        <select id="order", method = "order">
+            <option value="name">name</option>
+            <option value="department">department</option>
+            <option value="salary">salary</option>
+        </select>
 
     </body>
 </html>

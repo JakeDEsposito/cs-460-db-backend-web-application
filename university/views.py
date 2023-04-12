@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from . import forms
 from . import models
+from django.db import connection
 
 # localType = request.session.get('userType')
 # localID = request.session.get('userID')
@@ -58,13 +59,36 @@ def student(request):
 
 def admin(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    return render(request, 'admin/admin.html')
-def F1(request):
-        return render(request, 'admin/F1.html')
-def F2(request):
-        return render(request, 'admin/F2.html')
-def F3(request):
-        return render(request, 'admin/F3.html')
+
+def roster(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
+    return render(request, 'admin/F1.html')
+
+def salary(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT dept_name, MIN(salary), MAX(salary), AVG(salary) FROM instructor WHERE dept_name IS NOT NULL GROUP BY dept_name")
+        instructors = cursor.fetchall()
+        
+    return render(request, 'admin/F2.html', { "rows": instructors})
+    
+def preformance(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
+    if request.method == "POST":
+        form = forms.adminForm3(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            if (isName(data['profName'])):
+                return render(request, 'admin/F#.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': 'Got Data'})
+            else:
+                error = 'Invalid Name. Please try again'
+                return render(request, 'admin/F#.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': error})
+    else:
+        form = forms.adminForm3()
+        error = '';
+        return render(request, 'admin/F3.html', {'adminPrefForm': form, 'errorMsg': error})
+
 
 # Functions for Views
 
@@ -92,3 +116,15 @@ def login(uType):
         return redirect("instructor")
     else:
         return redirect("admin")
+    
+def getAdminSubpage(queryNum):
+    queryNum = int(queryNum)
+    if queryNum == 1:
+        return redirect("roster")
+    elif queryNum == 2:
+        return redirect("salary")
+    else:
+        return redirect("preformance")
+    
+def isName(name):
+    return (name.isalpha())

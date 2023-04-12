@@ -1,30 +1,30 @@
-#--Admin can do the following: 
+# Admin can do the following: 
 # 
 # F1. Roster: Create a list of professors sorted by one of the following 
 #             criteria chosen by the admin: 
 #               (1) by name (2) by dept, or (3) by salary. 
-#F2. Salary: Create a table of min/max/average salaries by dept.
-#F3. Performance: Given a professor's name, an academic year, 
+# F2. Salary: Create a table of min/max/average salaries by dept.
+# F3. Performance: Given a professor's name, an academic year, 
 #                 and a semester, show the following for the professor: the total 
 #                 number of course sections taught during the semester,
 #                 the total number of students taught, the total dollar amount 
 #                 of funding the professor has secured, and the total number 
 #                 of papers the professor has published. 
-# --#
+
 <!DOCTYPE html>
 <html>
-    <title>Admin</title>
-    <h3>Welcome to the admin page</h3>
-    <br></br>
     <body>
-        <h1>Administrator Queries</h1>
-    <label for="list">Information to view:</label>
-        <button onclick="location.href = '/F1'">List of professors</button>
-        <button onclick="location.href = '/F2'">Table of Salaries</button>
-        <button onclick="location.href = '/F3'">Professor performance</button>
-    <form action="{% url 'index' %}" method="get" style="float: right;">
-            <button type"submit" id="back">Log Out</button>
+        <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Log Out</button>
         </form>
+        <h1>Administrator Queries - Home Page</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{adminChooseQuery}}
+            <input type="submit" id="submit" value="Start">
+            <br>
+        </form>
+        <hr>
     </body>
 </html>
 
