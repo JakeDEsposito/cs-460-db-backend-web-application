@@ -15,14 +15,26 @@
         <form action="{% url 'admin' %}" method="get" style="float: right;">
             <button type="submit" id="back">Back to Admin Home</button>
         </form>
-        
-        <h3>Professors' performance</h3>
-        <h2>Please fillout the following form to search the database<h2>
-            <label>Professor's name</label>
-            <h4>First: </h4>{{First}} <h4>Last: </h4>{{Last}}
-            <label>Academic year</label> {{year}} // droplist
-            <label>semester (s, f)</label> {{semester}} // droplist
-            // SQL table
 
+        <h1>Professors' performance</h1>
+        <h2>Please fillout the following form to search the database<h2>
+        <form action="" method="POST">
+            {{adminPrefForm}}
+            <button type="submit" id="submit">Search</button>
+            <br>
+        </form>
+        <hr>
+        {{errorMsg}}
+        <table>
+        {% for row in results %}
+            <tr>
+                <tc>{{row.name}}</tc>
+                <tc>{{}}</tc>
+                <tc>{{}}</tc>
+                <tc>{{}}</tc>
+                <tc>{{}}</tc>
+            </tr>
+        {% endfor %}
+        </table>
     </body>
 </html>

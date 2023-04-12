@@ -77,7 +77,19 @@ def salary(request):
     
 def preformance(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    return render(request, 'admin/F3.html')
+    if request.method == "POST":
+        form = forms.adminForm3(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            if (isName(data['profName'])):
+                return render(request, 'admin/F#.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': 'Got Data'})
+            else:
+                error = 'Invalid Name. Please try again'
+                return render(request, 'admin/F#.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': error})
+    else:
+        form = forms.adminForm3()
+        error = '';
+        return render(request, 'admin/F3.html', {'adminPrefForm': form, 'errorMsg': error})
 
 # Functions for Views
 
@@ -114,3 +126,6 @@ def getAdminSubpage(queryNum):
         return redirect("salary")
     else:
         return redirect("preformance")
+    
+def isName(name):
+    return (name.isalpha())
