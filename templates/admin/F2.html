@@ -10,6 +10,22 @@
             <button type="submit" id="back">Back to Admin Home</button>
         </form>
         <h1>Professors' Salaries</h1>
-# SQL table here
+<!-- # SQL table here -->
+        <table>
+            <tr>
+                <th>Department Name</th>
+                <th>Minimum</th>
+                <th>Maximum</th>
+                <th>Average</th>
+            </tr>
+            {% for r in rows %}
+                <tr>
+                    <th>{{r.0}}</th>
+                    <th>{{r.1}}</th>
+                    <th>{{r.2}}</th>
+                    <th>{{r.3}}</th>
+                </tr>
+            {% endfor %}
+        </table>
     </body>
 </html>

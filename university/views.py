@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import loader
 from . import forms
 from . import models
+from django.db import connection
 
 # localType = request.session.get('userType')
 # localID = request.session.get('userID')
@@ -73,7 +74,12 @@ def roster(request):
 
 def salary(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    return render(request, 'admin/F2.html')
+
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT dept_name, MIN(salary), MAX(salary), AVG(salary) FROM instructor WHERE dept_name IS NOT NULL GROUP BY dept_name")
+        instructors = cursor.fetchall()
+        
+    return render(request, 'admin/F2.html', { "rows": instructors})
     
 def preformance(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
