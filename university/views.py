@@ -68,12 +68,15 @@ def admin(request):
         return render(request, 'admin/admin.html', {'adminChooseQuery': form})
 
 def roster(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
     return render(request, 'admin/F1.html')
 
 def salary(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
     return render(request, 'admin/F2.html')
     
 def preformance(request):
+    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
     return render(request, 'admin/F3.html')
 
 # Functions for Views
