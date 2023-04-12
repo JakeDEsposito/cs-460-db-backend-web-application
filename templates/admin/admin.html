@@ -13,17 +13,15 @@
 # --#
 <!DOCTYPE html>
 <html>
-    <header>Admin</header>
+    <title>Admin</title>
     <h3>Welcome to the admin page</h3>
     <br></br>
     <body>
         <h1>Administrator Queries</h1>
     <label for="list">Information to view:</label>
-    <select id="Fs", method = "Fs">
-        <option value="List of professors">listprof</option>
-        <option value="Table of Salaries">salaries</option>
-        <option value="Professor performance">salary</option>
-    </select>
+        <button onclick="location.href = '/F1'">List of professors</button>
+        <button onclick="location.href = '/F2'">Table of Salaries</button>
+        <button onclick="location.href = '/F3'">Professor performance</button>
     <form action="{% url 'index' %}" method="get" style="float: right;">
             <button type"submit" id="back">Log Out</button>
         </form>
