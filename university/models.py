@@ -36,12 +36,14 @@ class Department(models.Model):
         managed = False
         db_table = 'department'
 
-
+        
 class Instructor(models.Model):
     id = models.CharField(db_column='ID', primary_key=True, max_length=8)  # Field name made lowercase.
     name = models.CharField(max_length=20, blank=True, null=True)
     dept_name = models.ForeignKey(Department, models.DO_NOTHING, db_column='dept_name', blank=True, null=True)
     salary = models.IntegerField(blank=True, null=True)
+    funding = models.IntegerField(blank=True, null=True)
+    papers_published = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
