@@ -16,8 +16,8 @@
             <button type="submit" id="back">Back to Admin Home</button>
         </form>
 
-        <h1>Professors' performance</h1>
-        <h2>Please fillout the following form to search the database<h2>
+        <h1>Professors's performance</h1>
+        <h2>Please fillout the following form to search the database</h2>
         <form action="" method="POST">
             {{adminPrefForm}}
             <button type="submit" id="submit">Search</button>
@@ -26,15 +26,17 @@
         <hr>
         {{errorMsg}}
         <table>
-        {% for row in results %}
-            <tr>
-                <tc>{{row.name}}</tc>
-                <tc>{{}}</tc>
-                <tc>{{}}</tc>
-                <tc>{{}}</tc>
-                <tc>{{}}</tc>
-            </tr>
-        {% endfor %}
+        {% if row %}
+            {% for row in results %}
+                <tr>
+                    <tc>{{row.0}}</tc>
+                    <tc>{{row.1}}</tc>
+                    <tc>{{row.2}}</tc>
+                    <tc>{{row.3}}</tc>
+                    <tc>{{row.4}}</tc>
+                </tr>
+            {% endfor %}
+        {% endif %}
         </table>
     </body>
 </html>

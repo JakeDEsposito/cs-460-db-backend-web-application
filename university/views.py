@@ -59,6 +59,13 @@ def student(request):
 
 def admin(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
+    if request.method == 'POST':
+        form = forms.adminQuerySelect(request.POST)
+        if form.is_valid():
+            redirectVal = int(form.cleaned_data['queryChoice'])
+            return getAdminSubpage(redirectVal)
+    else:
+        return render(request, 'admin/admin.html', {'adminChooseQuery': forms.adminQuerySelect()})
 
 def roster(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
@@ -118,7 +125,6 @@ def login(uType):
         return redirect("admin")
     
 def getAdminSubpage(queryNum):
-    queryNum = int(queryNum)
     if queryNum == 1:
         return redirect("roster")
     elif queryNum == 2:
