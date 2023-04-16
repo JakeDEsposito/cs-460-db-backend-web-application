@@ -87,10 +87,23 @@ def preformance(request):
         if form.is_valid():
             data = form.cleaned_data
             if (isName(data['profName'])):
-                return render(request, 'admin/F#.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': 'Got Data'})
+                
+                name = data['profName']
+                year = int(data['yearVal'])
+                sem = int(data['semesterVal'])
+                
+                with connection.cursor() as cursor:
+                    cursor.execute('select instructor.name, instructor.funding, instructor.papers_published, count(student_id) as numStudentsTaught, count(distinct teaches.course_id, teaches.sec_id, teaches.semester, teaches.year) as numCourses from takes right join teaches on (teaches.course_id, teaches.sec_id, teaches.year, teaches.semester) = (takes.course_id, takes.sec_id, takes.year, takes.semester) right join instructor on (teaches.teacher_id) = (instructor.id) where instructor.name = \'{}\' AND teaches.year = {} AND teaches.semester = {} GROUP BY instructor.name, instructor.funding, instructor.papers_published;'.format(name, year, sem))
+                    rowData = cursor.fetchall()
+                rowCount = len(rowData)
+                
+                if (rowCount != 0):
+                    return render(request, 'admin/F3.html', {'adminPrefForm': forms.adminForm3(request.POST), 'testVal': 1, 'results': rowData})
+                else:
+                    return render(request, 'admin/F3.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': 'Error: No Valid Entries'})
             else:
                 error = 'Invalid Name. Please try again'
-                return render(request, 'admin/F#.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': error})
+                return render(request, 'admin/F3.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': error})
     else:
         form = forms.adminForm3()
         error = '';

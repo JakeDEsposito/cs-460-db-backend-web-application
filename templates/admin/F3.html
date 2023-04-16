@@ -1,14 +1,14 @@
-
-#F3. Performance: Given a professor's name, an academic year, 
-#                 and a semester, show the following for the professor: the total 
-#                 number of course sections taught during the semester,
-#                 the total number of students taught, the total dollar amount 
-#                 of funding the professor has secured, and the total number 
-#                 of papers the professor has published. 
-
 <!DOCTYPE html>
 <html>
     <body>
+        <style type="text/css">
+            td {
+                padding: 0 15px;
+            }
+            th {
+                padding: 0 15px;
+            }
+        </style>
         <form action="{% url 'index' %}" method="get" style="float: right;">
             <button type="submit" id="back">Log Out</button>
         </form>
@@ -19,6 +19,7 @@
         <h1>Professors's performance</h1>
         <h2>Please fillout the following form to search the database</h2>
         <form action="" method="POST">
+            {% csrf_token %}
             {{adminPrefForm}}
             <button type="submit" id="submit">Search</button>
             <br>
@@ -26,17 +27,24 @@
         <hr>
         {{errorMsg}}
         <table>
-        {% if row %}
+            {% if testVal == 1 %}
+                <tr>
+                    <th>Name</th>
+                    <th>Funding ($)</th>
+                    <th>Papers Published</th>
+                    <th>Num. of Students Taught</th>
+                    <th>Num. of Courses Taught</th>
+                </tr>
+            {% endif %}
             {% for row in results %}
                 <tr>
-                    <tc>{{row.0}}</tc>
-                    <tc>{{row.1}}</tc>
-                    <tc>{{row.2}}</tc>
-                    <tc>{{row.3}}</tc>
-                    <tc>{{row.4}}</tc>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td>{{row.2}}</td>
+                    <td>{{row.3}}</td>
+                    <td>{{row.4}}</td>
                 </tr>
             {% endfor %}
-        {% endif %}
         </table>
     </body>
 </html>
