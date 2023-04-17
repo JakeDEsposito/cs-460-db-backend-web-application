@@ -1,4 +1,5 @@
-# *University Database Front-end* User Manual
+# *University Database Front-end*  
+# User Manual
 ## Table of Contents
 1. [General](#General)
 1. [User Guide](#User-Guide)

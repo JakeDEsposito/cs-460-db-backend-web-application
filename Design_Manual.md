@@ -1,4 +1,5 @@
 # Design Manual
+## *University database*
 ## Table of Contents
 1. [Original Plan](#Original-Plan)
 1. [Restructure](#Restructure)
@@ -10,9 +11,9 @@
 	1. [Feature 4](#Feature-4)
 	1. [Feature 5](#Feature-5)
 	1. [Feature 6](#Feature-6)
+1. [ER Diagram and Database Schema](#ER-Diagram-and-Database-Schema)
 1. [Security](#Security)
-1. [ER Diagram](#ER-Diagram)
-1. [Database Schema](#Database Schema)
+
 
 ## Original Plan
 Our original design going forward was for us to make a distinct app for each individual page on the website. This turned out to be rather problematic for it was redundant because it did not take in to use "views."
@@ -36,5 +37,12 @@ For our login page, we designed it to have several types of users in which the u
 ### Feature 5
 
 ### Feature 6
+
+## ER Diagram and Database Schema
+
+In this section, we are presenting university database's entity relationship diagram (ERD) alnog with it's schema (where in the diagram, it shows entities are represented)
+
+![ER diagram and Schema](./images/ER-schema.png)
+
 
 ## Security
