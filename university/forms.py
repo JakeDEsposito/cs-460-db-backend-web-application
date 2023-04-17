@@ -37,8 +37,8 @@ PROFESSOR_SORT_CHOICES = (
 )
 
 DIRECTION = (
-    ('DESC', 'Descending Order'),
-    ('ASC', 'Ascending Order')
+    ('ASC', 'Ascending Order'),
+    ('DESC', 'Descending Order')
 )
 
 class LoginForm(forms.Form):
@@ -59,7 +59,7 @@ class adminQuerySelect(forms.Form):
     
 class adminForm1(forms.Form):
     sortType = forms.ChoiceField(choices = PROFESSOR_SORT_CHOICES, label = "Sort By")
-    directionSelect = forms.ChoiceField(widget = forms.RadioSelect, choices = DIRECTION, label = "Order")
+    directionSelect = forms.ChoiceField(choices = DIRECTION, label = "Order")
     
 class adminForm3(forms.Form):
     profName = forms.CharField(label = "Professor's Name", max_length = 16, min_length = 2)

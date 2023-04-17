@@ -1,11 +1,14 @@
-
-# F1. Roster: Create a list of professors sorted by one of the following 
-#             criteria chosen by the admin: 
-#               (1) by name (2) by dept, or (3) by salary.
-
 <!DOCTYPE html>
 <html>
     <body>
+        <style type="text/css">
+            td {
+                padding: 0 15px;
+            }
+            th {
+                padding: 0 15px;
+            }
+        </style>
         <form action="{% url 'index' %}" method="get" style="float: right;">
             <button type="submit" id="back">Log Out</button>
         </form>
@@ -14,12 +17,30 @@
         </form>
 
         <h1>List of professors</h1>
-        <label for="list">Show professors sorted by one of the following criteria:</label>
-        <select id="order", method = "order">
-            <option value="name">name</option>
-            <option value="department">department</option>
-            <option value="salary">salary</option>
-        </select>
-
+        <p>Show professors sorted by one of the following criteria:</p>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{adminSortSelect}}
+            <button type="submit" id="submit">Search</button>
+            <br>
+        </form>
+        <hr>
+        {{errorMsg}}
+        <table>
+            {% if testVal == 1 %}
+                <tr>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Salary ($)</th>
+                </tr>
+            {% endif %}
+            {% for row in results %}
+                <tr>
+                    <td>{{row.name}}</td>
+                    <td>{{row.dept_name_id}}</td>
+                    <td>{{row.salary}}</td
+                </tr>
+            {% endfor %}
+        </table>
     </body>
 </html>

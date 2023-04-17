@@ -69,7 +69,21 @@ def admin(request):
 
 def roster(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    return render(request, 'admin/F1.html')
+    if request.method == "POST":
+        form = forms.adminForm1(request.POST)
+        data = request.POST
+        sortType = data['sortType']
+        sortOrder = data['directionSelect']
+        
+        if (sortOrder == "DESC"):
+            sortType = '-' + sortType
+        
+        results = models.Instructor.objects.all().order_by(sortType).values()
+        return render(request, 'admin/F1.html', {'adminSortSelect': form, 'testVal': 1, 'results': results})
+        
+    else:
+        form = forms.adminForm1()
+        return render(request, 'admin/F1.html', {'adminSortSelect': form})
 
 def salary(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
