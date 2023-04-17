@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <style type="text/css">
+            td {
+                padding: 0 15px;
+            }
+            th {
+                padding: 0 15px;
+            }
+        </style>
         <form action="{% url 'index' %}" method="get" style="float: right;">
             <button type="submit" id="back">Log Out</button>
         </form>
@@ -13,5 +21,19 @@
         </form>
         <hr>
         {{errorMsg}}
+        <table>
+            {% if testVal == 1 %}
+                <tr>
+                    <th>Course Name</th>
+                    <th>Department</th>
+                </tr>
+            {% endif %}
+            {% for row in results %}
+                <tr>
+                    <td>{{row.course_id}}</td>
+                    <td>{{row.dept_name_id}}</td>
+                </tr>
+            {% endfor %}
+        </table>
     </body>
 </html>

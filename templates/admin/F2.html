@@ -1,14 +1,21 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <style type="text/css">
+            td {
+                padding: 0 15px;
+            }
+            th {
+                padding: 0 15px;
+            }
+        </style>
         <form action="{% url 'index' %}" method="get" style="float: right;">
             <button type="submit" id="back">Log Out</button>
         </form>
         <form action="{% url 'admin' %}" method="get" style="float: right;">
             <button type="submit" id="back">Back to Admin Home</button>
         </form>
-        <h1>Professors' Salaries</h1>
-        # SQL table here 
+        <h1>Professors' Salaries ($)</h1>
         <table>
             <tr>
                 <th>Department Name</th>
@@ -18,10 +25,10 @@
             </tr>
             {% for r in rows %}
                 <tr>
-                    <th>{{r.0}}</th>
-                    <th>{{r.1}}</th>
-                    <th>{{r.2}}</th>
-                    <th>{{r.3}}</th>
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                    <td>{{r.2}}</td>
+                    <td>{{r.3}}</td>
                 </tr>
             {% endfor %}
         </table>
