@@ -20,7 +20,7 @@ YEARS = (
 )
 
 TYPE = (
-    (0, 'Course Sec. & # of Students'),
+    (0, 'Course Section & Number of Students'),
     (1, 'List of Students')
 )
 

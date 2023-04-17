@@ -37,9 +37,32 @@ def index(request):
 def instructor(request):
     if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
     if request.method == "POST":
+
+        data = request.POST
+
+        typeVal = data['typeVal']
+        yearVal = data['yearVal']
+        semesterVal = data['semesterVal']
+
+        semester = '01' if semesterVal == 0 else '02'
+
+        if typeVal == "0":
+            # Create the list of course sections and the number of students enrolled in each section that the professor taught in a given semester
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT Teaches.sec_id, COUNT(Takes.student_id) FROM Teaches JOIN Takes ON Teaches.course_id = Takes.course_id AND Teaches.sec_id = Takes.sec_id WHERE teacher_id = {} AND Teaches.semester = {} AND Teaches.year = {} GROUP BY Teaches.course_id, Teaches.sec_id".format(request.session.get('userID'), semester, yearVal))
+                results = cursor.fetchall()
+        else:
+            # Create the list of students enrolled in a course section taught by the professor in a given semester
+            with connection.cursor() as cursor:
+                cursor.execute("SELECT Teaches.sec_id, (SELECT name FROM Student WHERE Student.student_id = Takes.student_id) FROM Teaches JOIN Takes ON Teaches.sec_id = Takes.sec_id WHERE teacher_id = {} AND Teaches.semester = {} AND Teaches.year = {}".format(request.session.get('userID'), semester, yearVal))
+                results = cursor.fetchall()
+
+        # FIXME: Here for testing! Remove for final release!
+        print(results)
+
         courseSearch = forms.instructorForm(request.POST)
         errorMsg = 'POST'
-        return render(request, 'instructor/instructor.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
+        return render(request, 'instructor/instructor.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg, "rows": results, "typeVal": typeVal})
     else:
         courseSearch = forms.instructorForm()
         errorMsg = 'GET'
@@ -120,7 +143,7 @@ def preformance(request):
                 return render(request, 'admin/F3.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': error})
     else:
         form = forms.adminForm3()
-        error = '';
+        error = ''
         return render(request, 'admin/F3.html', {'adminPrefForm': form, 'errorMsg': error})
 
 

@@ -20,6 +20,18 @@
             <br>
         </form>
         <hr>
+        <table>
+            <tr>
+                <th>Section</th>
+                <th>Students</th>
+            </tr>
+            {% for r in rows %}
+                <tr>
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                </tr>
+            {% endfor %}
+        </table>
         {{errorMsg}}
     </body>
 </html>
