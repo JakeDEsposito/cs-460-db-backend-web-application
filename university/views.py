@@ -73,8 +73,21 @@ def student(request):
     if (request.session['userType'] != "student"): return render(request, 'main/noUser.html')
     if request.method == "POST":
         courseSearch = forms.studentForm(request.POST)
-        errorMsg = 'POST'
-        return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
+        data = request.POST
+        print(data)
+        yearSearch = int(data['yearVal'])
+        semesterSearch = int(data['semesterVal'])
+        
+        with connection.cursor() as cursor:
+            cursor.execute("select section.course_id, course.title, section.sec_id, course.dept_name from section join course on (section.course_id = course.course_id) where year={} and semester={};".format(yearSearch, semesterSearch))
+            results = cursor.fetchall()
+            print(results)
+        
+        rows = len(results)
+        if(rows == 0):
+            return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': 'No results found'})
+        else:
+            return render(request, 'student/student.html', {'lookupForm': courseSearch, 'testVal': 1, 'results': results})
     else:
         courseSearch = forms.studentForm()
         errorMsg = 'GET'

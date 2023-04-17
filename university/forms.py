@@ -7,8 +7,8 @@ USER_TYPE=[
 ]
 
 SEMESTERS = (
-    (0, 'Fall'),
-    (1, 'Spring')
+    (1, 'Fall'),
+    (2, 'Spring')
 )
 
 YEARS = (
