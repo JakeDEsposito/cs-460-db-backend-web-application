@@ -5,12 +5,8 @@
 1. [Restructure](#Restructure)
 1. [Login](#Login)
 1. [Backend](#Backend)
-	1. [Feature 1](#Feature-1)
-	1. [Feature 2](#Feature-2)
-	1. [Feature 3](#Feature-3)
-	1. [Feature 4](#Feature-4)
-	1. [Feature 5](#Feature-5)
-	1. [Feature 6](#Feature-6)
+	1. [Tools](#Tools)
+	1. [Database details](#Database-details)
 1. [ER Diagram and Database Schema](#ER-Diagram-and-Database-Schema)
 1. [Security](#Security)
 
@@ -26,17 +22,32 @@ For our login page, we designed it to have several types of users in which the u
 
 ## Backend
 
-### Feature 1
+### Tools
+For this project, we used Python programing language for the backend, and HTML (and Django templates) for the front end. We used Django templates to pass Python objects through it in order to have a dynamic HTML. 
 
-### Feature 2
+Python files:
 
-### Feature 3
+1. __ init __.py: This file was created automatically to allow us to define any variable at the package level.\
 
-### Feature 4
+1. admin.py: This file is has also been created automatically; it is not used directly in this project. (we created our own admin page from scratch) \
+ 
+1. apps.py: This file was created to assist users in including any application configuration for the program. It is used to configure some of the application's attributes. \
 
-### Feature 5
+1. forms.py: A Django forms file that does the following:
+	1. Prepares and arranges data for rendering. 
+	1. Create HTML forms.
+	1. Receiving and processing the user's submitted forms.\
 
-### Feature 6
+1. modles.py:
+1. urls.py:
+1. views.py:
+
+<br>
+
+### Database details
+
+MySQL queries were used to manage the database of this project.
+
 
 ## ER Diagram and Database Schema
 
@@ -44,5 +55,8 @@ In this section, we are presenting university database's entity relationship dia
 
 ![ER diagram and Schema](./images/ER-schema.png)
 
+<br>
+<br>
 
 ## Security
+This project has simple security components. There is no cryptographic concepts  of any sort involved. Each user cannot access other users' account; the system checks the correctness of inputed passwords for each user. 
