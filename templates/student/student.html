@@ -24,14 +24,18 @@
         <table>
             {% if testVal == 1 %}
                 <tr>
+                    <th>Course ID</th>
                     <th>Course Name</th>
+                    <th>Course Section</th>
                     <th>Department</th>
                 </tr>
             {% endif %}
             {% for row in results %}
                 <tr>
-                    <td>{{row.course_id}}</td>
-                    <td>{{row.dept_name_id}}</td>
+                    <td>{{row.0}}</td>
+                    <td>{{row.1}}</td>
+                    <td>{{row.2}}</td>
+                    <td>{{row.3}}</td>
                 </tr>
             {% endfor %}
         </table>
