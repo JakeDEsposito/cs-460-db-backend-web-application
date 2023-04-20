@@ -12,26 +12,14 @@
         <form action="{% url 'index' %}" method="get" style="float: right;">
             <button type="submit" id="back">Log Out</button>
         </form>
-        <h1>Professor Information</h1>
+        <h1>Professor Forms</h1>
         <form action="", onsubmit="", method="post">
             {% csrf_token %}
             {{lookupForm}}
-            <input type="submit" id="submit" value="Search">
+            <input type="submit" id="submit" value="Start">
             <br>
         </form>
         <hr>
-        <table>
-            <tr>
-                <th>Section</th>
-                <th>Students</th>
-            </tr>
-            {% for r in rows %}
-                <tr>
-                    <td>{{r.0}}</td>
-                    <td>{{r.1}}</td>
-                </tr>
-            {% endfor %}
-        </table>
         {{errorMsg}}
     </body>
 </html>

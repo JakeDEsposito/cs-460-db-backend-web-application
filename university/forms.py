@@ -1,4 +1,5 @@
 from django import forms
+from . import models
 
 USER_TYPE=[
     ('student', 'Student'),
@@ -51,9 +52,16 @@ class studentForm(forms.Form):
 
 class instructorForm(forms.Form):
     typeVal = forms.ChoiceField(widget = forms.RadioSelect, choices = TYPE, label = "Select Query Type")
+    
+class instructorQuery1(forms.Form):
+    yearVal = forms.ChoiceField(choices = YEARS, label = "Select Year")
+    semesterVal = forms.ChoiceField(choices = SEMESTERS, label = "Select Semester")  
+    
+class instructorQuery2(forms.Form):
+    classVal = forms.ChoiceField(label = "Select Course and Section Taught")
     yearVal = forms.ChoiceField(choices = YEARS, label = "Select Year")
     semesterVal = forms.ChoiceField(choices = SEMESTERS, label = "Select Semester")
-    
+
 class adminQuerySelect(forms.Form):
     queryChoice = forms.ChoiceField(widget = forms.RadioSelect, choices = ADMIN_QUERY_OPTIONS, label = "Select Query Option")
     

@@ -31,50 +31,95 @@ def index(request):
         form = forms.LoginForm()
         request.session['userType'] = ''
         request.session['userID'] = ''
+        request.session['courseList'] = ''
         errorMsg = ''
         return render(request, 'main/loginForm.html', {'form': form})
+ 
+# Instructor Functions
     
 def instructor(request):
     if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
     if request.method == "POST":
-
+        form = forms.instructorForm(request.POST)
         data = request.POST
-
-        typeVal = data['typeVal']
-        yearVal = data['yearVal']
-        semesterVal = data['semesterVal']
-
-        semester = '01' if semesterVal == 0 else '02'
-
-        if typeVal == "0":
-            # Create the list of course sections and the number of students enrolled in each section that the professor taught in a given semester
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT Teaches.sec_id, COUNT(Takes.student_id) FROM Teaches JOIN Takes ON Teaches.course_id = Takes.course_id AND Teaches.sec_id = Takes.sec_id WHERE teacher_id = {} AND Teaches.semester = {} AND Teaches.year = {} GROUP BY Teaches.course_id, Teaches.sec_id".format(request.session.get('userID'), semester, yearVal))
-                results = cursor.fetchall()
-        else:
-            # Create the list of students enrolled in a course section taught by the professor in a given semester
-            with connection.cursor() as cursor:
-                cursor.execute("SELECT Teaches.sec_id, (SELECT name FROM Student WHERE Student.student_id = Takes.student_id) FROM Teaches JOIN Takes ON Teaches.sec_id = Takes.sec_id WHERE teacher_id = {} AND Teaches.semester = {} AND Teaches.year = {}".format(request.session.get('userID'), semester, yearVal))
-                results = cursor.fetchall()
-
-        # FIXME: Here for testing! Remove for final release!
-        print(results)
-
-        courseSearch = forms.instructorForm(request.POST)
-        errorMsg = 'POST'
-        return render(request, 'instructor/instructor.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg, "rows": results, "typeVal": typeVal})
+        if (form.is_valid()):
+            queryChoice = int(data['typeVal'])
+            return getInstructorSubpage(queryChoice)
+        
     else:
-        courseSearch = forms.instructorForm()
-        errorMsg = 'GET'
-        #return render(request, 'main/noUser.html')
-        return render(request, 'instructor/instructor.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
+        typeForm = forms.instructorForm()
+        return render(request, 'instructor/instructor.html', {'lookupForm': typeForm})
+    
+def sectionStudents(request):
+    if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
+    if request.method == "POST":
+        form = forms.instructorQuery2(request.POST)
+        form.fields['classVal'].choices = request.session.get('courseList')
+        data = request.POST
+        courseSec = data['classVal']
+        year = int(data['yearVal'])
+        semester = int(data['semesterVal'])
+        
+        # Decompose combined course/section from search
+        course = courseSec[0:courseSec.find("-")]
+        sec = courseSec[courseSec.find("-")+1:len(courseSec)]
+        
+        with connection.cursor() as cursor:
+            cursor.execute('select name, student.student_id from takes join student on (takes.student_id)=(student.student_id) where course_id = \'{}\' AND sec_id = \'{}\' AND semester = {} AND year = {};'.format(course, sec, semester, year))
+            results = cursor.fetchall()
+        rows = len(results)
+        
+        if (rows == 0):
+            return render(request, 'instructor/F5.html', {'lookupForm':form, 'errorMsg': "Error: No such course/section exists in the specified year/semester."})
+        else:
+            fullCourse = courseSec + " - " + str(forms.SEMESTERS[semester-1][1]) + ", " + str(year)
+            print(fullCourse)
+            return render(request, 'instructor/F5.html', {'lookupForm':form, 'testVal': 1, 'rows': results, 'courseSection': fullCourse})
+            
+    else:
+        form = forms.instructorQuery2()
+        
+        # Dynamically get courses taught by the instructor logged in, don't account for year or semester
+        with connection.cursor() as cursor:
+            cursor.execute('select distinct concat(course_id, "-", sec_id) as course from teaches where teacher_id = \'{}\';'.format(request.session.get('userID')))
+            courseList = cursor.fetchall()
+        newCourseList = []
+        for course in courseList:
+            index = courseList.index(course)
+            newCourseList.append((courseList[index][0], courseList[index][0]))
+        
+        request.session['courseList'] = newCourseList
+        form.fields['classVal'].choices = newCourseList
+        return render(request, 'instructor/F5.html', {'lookupForm':form})
+    
+def sectionEnrolled(request):
+    if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
+    if request.method == "POST":
+        courseSearch = forms.instructorQuery1(request.POST)
+        data = request.POST
+        year = data['yearVal']
+        semester = data['semesterVal']
+        
+        with connection.cursor() as cursor:
+            cursor.execute('select teaches.course_id, teaches.sec_id, count(student_id) from teaches join takes on (teaches.course_id, teaches.sec_id, teaches.year, teaches.semester) = (takes.course_id, takes.sec_id, takes.year, takes.semester) where teacher_id = \'{}\' AND teaches.year = {} AND teaches.semester = {} GROUP BY teaches.course_id, teaches.sec_id;'.format(request.session.get('userID'), year, semester))
+            results = cursor.fetchall()
+            
+        rows = len(results)
+        if (rows == 0):
+            return render(request, 'instructor/F4.html', {'lookupForm': courseSearch, 'testVal': 0, 'errorMsg': "Error: No results found"})
+        else:
+            return render(request, 'instructor/F4.html', {'lookupForm': courseSearch, 'testVal': 1, 'rows': results})
+    else:
+        form = forms.instructorQuery1()
+        return render(request, 'instructor/F4.html', {'lookupForm': form})
+         
+# Student Functions
         
 def student(request):
     if (request.session['userType'] != "student"): return render(request, 'main/noUser.html')
     if request.method == "POST":
         courseSearch = forms.studentForm(request.POST)
         data = request.POST
-        print(data)
         yearSearch = int(data['yearVal'])
         semesterSearch = int(data['semesterVal'])
         
@@ -92,6 +137,8 @@ def student(request):
         courseSearch = forms.studentForm()
         errorMsg = 'GET'
         return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
+
+# Admin Functions
 
 def admin(request):
     if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
@@ -194,6 +241,12 @@ def getAdminSubpage(queryNum):
         return redirect("salary")
     else:
         return redirect("preformance")
+    
+def getInstructorSubpage(formChoice):
+    if (formChoice == 0):
+        return redirect("sectionEnrolled")
+    else:
+        return redirect("sectionStudents")
     
 def isName(name):
     return (name.isalpha())

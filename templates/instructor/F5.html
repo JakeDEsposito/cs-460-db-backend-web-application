@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <style type="text/css">
+            td {
+                padding: 0 15px;
+            }
+            th {
+                padding: 0 15px;
+            }
+        </style>
+        <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Log Out</button>
+        </form>
+        <form action="{% url 'instructor' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Back to Instructor Home</button>
+        </form>
+
+        <h1>Course Section Students</h1>
+        <form action="", onsubmit="", method="post">
+            {% csrf_token %}
+            {{lookupForm}}
+            <input type="submit" id="submit" value="Search">
+            <br>
+        </form>
+        <hr>
+
+        {% if testVal == 1 %}
+        <h2>Course Information:</h2>
+        <p>{{courseSection}}<p>
+        {% endif %}
+
+        <table>
+            {% if testVal == 1 %}
+            <tr>
+                <th>Student Name</th>
+                <th>Student ID</th>
+            </tr>
+            {% endif %}
+            {% for r in rows %}
+                <tr>
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{errorMsg}}
+    </body>
+</html>

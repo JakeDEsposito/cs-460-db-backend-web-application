@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <style type="text/css">
+            td {
+                padding: 0 15px;
+            }
+            th {
+                padding: 0 15px;
+            }
+        </style>
+        <form action="{% url 'index' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Log Out</button>
+        </form>
+        <form action="{% url 'instructor' %}" method="get" style="float: right;">
+            <button type="submit" id="back">Back to Instructor Home</button>
+        </form>
+
+        <h1>Course Section Enrollment</h1>
+        <form action="", onsubmit="", method="post">
+            {% csrf_token %}
+            {{lookupForm}}
+            <input type="submit" id="submit" value="Search">
+            <br>
+        </form>
+        <hr>
+        <table>
+            {% if testVal == 1 %}
+            <tr>
+                <th>Class</th>
+                <th>Section</th>
+                <th>Num. of Students</th>
+            </tr>
+            {% endif %}
+            {% for r in rows %}
+                <tr>
+                    <td>{{r.0}}</td>
+                    <td>{{r.1}}</td>
+                    <td>{{r.2}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+        {{errorMsg}}
+    </body>
+</html>
