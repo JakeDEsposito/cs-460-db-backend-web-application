@@ -73,7 +73,6 @@ def sectionStudents(request):
             return render(request, 'instructor/F5.html', {'lookupForm':form, 'errorMsg': "Error: No such course/section exists in the specified year/semester."})
         else:
             fullCourse = courseSec + " - " + str(forms.SEMESTERS[semester-1][1]) + ", " + str(year)
-            print(fullCourse)
             return render(request, 'instructor/F5.html', {'lookupForm':form, 'testVal': 1, 'rows': results, 'courseSection': fullCourse})
             
     else:
@@ -126,7 +125,6 @@ def student(request):
         with connection.cursor() as cursor:
             cursor.execute("select section.course_id, course.title, section.sec_id, course.dept_name from section join course on (section.course_id = course.course_id) where year={} and semester={};".format(yearSearch, semesterSearch))
             results = cursor.fetchall()
-            print(results)
         
         rows = len(results)
         if(rows == 0):
