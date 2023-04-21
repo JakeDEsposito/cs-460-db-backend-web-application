@@ -1,0 +1,93 @@
+<h1 id="design-manual">Design Manual</h1>
+<h2 id="university-database"><em>University database</em></h2>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol type="1">
+<li><a href="#Original-Plan">Original Plan</a></li>
+<li><a href="#Restructure">Restructure</a></li>
+<li><a href="#Login">Login</a></li>
+<li><a href="#Backend">Backend</a>
+<ol type="1">
+<li><a href="#Tools">Tools</a></li>
+<li><a href="#Database-details">Database details</a></li>
+</ol></li>
+<li><a href="#ER-Diagram-and-Database-Schema">ER Diagram and Database
+Schema</a></li>
+<li><a href="#Security">Security</a></li>
+</ol>
+<h2 id="original-plan">Original Plan</h2>
+<p>Our original design going forward was for us to make a distinct app
+for each individual page on the website. This turned out to be rather
+problematic for it was redundant because it did not take in to use
+“views.”</p>
+<h2 id="restructure">Restructure</h2>
+<p>We subsequently restructured the format of the Django project by
+creating one single and final app which contains “views” for what were
+apps in the previous version. This removes the redundancy of having
+multiple apps.</p>
+<h2 id="login">Login</h2>
+<p>For our login page, we designed it to have several types of users in
+which the user can pick from. This determines what privilege level the
+user will have (given that their <code>ID #</code> permits this level.)
+As soon as a correct ID is inputted and the page is redirected to the
+respective “view,” the next “view” must know which user logged into the
+previous page. This is accomplished by means of “Middleware,” a tool
+that allows different pages to pass information on. We specifically
+opted to utilize the cookie method, which uses session cookies to
+transfer information between “views.”</p>
+<h2 id="backend">Backend</h2>
+<h3 id="tools">Tools</h3>
+<p>For this project, we used Python programing language for the backend,
+and HTML (and Django templates) for the front end. We used Django
+templates to pass Python objects through it in order to have a dynamic
+HTML.</p>
+<p>Python files:</p>
+<ol type="1">
+<li><p>__ init __.py: This file was created automatically to allow us to
+define any variable at the package level.<br />
+</p></li>
+<li><p>admin.py: This file is has also been created automatically; it is
+not used directly in this project. (we created our own admin page from
+scratch)<br />
+</p></li>
+<li><p>apps.py: This file was created to assist users in including any
+application configuration for the program. It is used to configure some
+of the application’s attributes.<br />
+</p></li>
+<li><p>forms.py: A Django forms file that does the following:</p>
+<ol type="1">
+<li>Prepares and arranges data for rendering.</li>
+<li>Create HTML forms.</li>
+<li>Receiving and processing the user’s submitted forms.<br />
+</li>
+</ol></li>
+<li><p>models.py: This is where the access of our university database
+happen. Models access and manage data through Python objects.</p></li>
+<li><p>views.py: This python file holds Python views that are classes or
+methods that take a web request and provide a web response. (Like HTTP
+or HTML)</p></li>
+<li><p>urls.py: Here is where we use “urlpatterns” tuples; we define the
+mapping between URLs and views by importing module and adding a path
+function in urlpatterns[] list.</p></li>
+<li><p>manage.py : A command-line utility that allows us to execute our
+Django project in various ways.</p></li>
+</ol>
+<p><br></p>
+<h3 id="database-details">Database details</h3>
+<p>MySQL queries were used to manage the database of this project. The
+database is approximately of size 4-5 gigabytes.</p>
+<h2 id="er-diagram-and-database-schema">ER Diagram and Database
+Schema</h2>
+<p>In this section, we are presenting university database’s entity
+relationship diagram (ERD) along with it’s schema (where in the diagram,
+it shows entities are represented)</p>
+<figure>
+<img src="./images/ER-schema.png" alt="ER diagram and Schema" />
+<figcaption aria-hidden="true">ER diagram and Schema</figcaption>
+</figure>
+<p><br> <br></p>
+<h2 id="security">Security</h2>
+<p>This project has simple security components. There is no
+cryptographic concepts of any sort involved. Each user cannot access
+other users’ account; the system checks the correctness of inputed
+passwords for each user. We also take advantage of MySQL’s built in user
+creation queries and user system.</p>

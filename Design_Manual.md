@@ -38,20 +38,22 @@ Python files:
 	1. Create HTML forms.
 	1. Receiving and processing the user's submitted forms.\
 
-1. modles.py:
-1. urls.py:
-1. views.py:
+1. models.py: This is where the access of our university database happen. Models access and manage data through Python objects. 
+1. views.py: This python file holds Python views that are classes or methods that take a web request and provide a web response. (Like HTTP or HTML) 
+1. urls.py: Here is where we use "urlpatterns" tuples; we define the mapping between URLs and views by importing module and adding a path function in urlpatterns[] list.
+1. manage.py : A command-line utility that allows us to execute our Django project in various ways.
 
 <br>
 
 ### Database details
 
-MySQL queries were used to manage the database of this project.
+MySQL queries were used to manage the database of this project. 
+The database is approximately of size 4-5 gigabytes. 
 
 
 ## ER Diagram and Database Schema
 
-In this section, we are presenting university database's entity relationship diagram (ERD) alnog with it's schema (where in the diagram, it shows entities are represented)
+In this section, we are presenting university database's entity relationship diagram (ERD) along with it's schema (where in the diagram, it shows entities are represented)
 
 ![ER diagram and Schema](./images/ER-schema.png)
 
@@ -59,4 +61,4 @@ In this section, we are presenting university database's entity relationship dia
 <br>
 
 ## Security
-This project has simple security components. There is no cryptographic concepts  of any sort involved. Each user cannot access other users' account; the system checks the correctness of inputed passwords for each user. 
+This project has simple security components. There is no cryptographic concepts  of any sort involved. Each user cannot access other users' account; the system checks the correctness of inputed passwords for each user. We also take advantage of MySQL's built in user creation queries and user system.
