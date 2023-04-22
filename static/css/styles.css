@@ -1,3 +1,21 @@
 body {
+    margin: 2rem;
+    background: rgb(62, 62, 62);
+    color: rgb(224, 224, 224);
 
+    --bs-body-font-size: 1.1rem;
+}
+
+input[type="text"], input[type="submit"], button, select {
+    background-color: rgb(96, 96, 96);
+    color: rgb(224, 224, 224);
+    margin-left: 0.5rem;
+}
+
+ul {
+    list-style-type: none;
+}
+
+td, th {
+    padding: 0 1rem;
 }
