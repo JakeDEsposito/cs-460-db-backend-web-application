@@ -1,6 +1,9 @@
+{% extends '../base.html' %}
+
 <!DOCTYPE html>
 <html>
     <body>
+        {% block pagecontent %}
         <style type="text/css">
             td {
                 padding: 0 15px;
@@ -9,12 +12,8 @@
                 padding: 0 15px;
             }
         </style>
-        <form action="{% url 'index' %}" method="get" style="float: right;">
-            <button type="submit" id="back">Log Out</button>
-        </form>
-        <form action="{% url 'instructor' %}" method="get" style="float: right;">
-            <button type="submit" id="back">Back to Instructor Home</button>
-        </form>
+        <a href="{% url 'index' %}" style="float: right;"><button>Log Out</button></a>
+        <a href="{% url 'instructor' %}" style="float: right;"><button>Back to Instructor Home</button></a>
 
         <h1>Course Section Enrollment</h1>
         <form action="", onsubmit="", method="post">
@@ -41,5 +40,6 @@
             {% endfor %}
         </table>
         {{errorMsg}}
+        {% endblock %}
     </body>
 </html>
