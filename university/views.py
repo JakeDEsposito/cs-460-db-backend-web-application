@@ -133,7 +133,7 @@ def student(request):
             return render(request, 'student/student.html', {'lookupForm': courseSearch, 'testVal': 1, 'results': results})
     else:
         courseSearch = forms.studentForm()
-        errorMsg = 'GET'
+        errorMsg = ''
         return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
 
 # Admin Functions

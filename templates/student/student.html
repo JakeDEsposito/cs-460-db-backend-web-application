@@ -15,7 +15,7 @@
         <h1>Courses Offered</h1>
         <form action="", onsubmit="", method="post">
             {% csrf_token %}
-            {{lookupForm|linebreaks}}
+            {{lookupForm}}
             <input type="submit" id="submit" value="Search">
             <br>
         </form>
