@@ -52,9 +52,26 @@ class instructor(TemplateView):
             queryChoice = int(data['typeVal'])
             return getInstructorSubpage(queryChoice)
 
-def sectionStudents(request):
-    if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
-    if request.method == "POST":
+class sectionStudents(TemplateView):
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
+        form = forms.instructorQuery2()
+        
+        # Dynamically get courses taught by the instructor logged in, don't account for year or semester
+        with connection.cursor() as cursor:
+            cursor.execute('select distinct concat(course_id, "-", sec_id) as course from teaches where teacher_id = \'{}\';'.format(request.session.get('userID')))
+            courseList = cursor.fetchall()
+        newCourseList = []
+        for course in courseList:
+            index = courseList.index(course)
+            newCourseList.append((courseList[index][0], courseList[index][0]))
+        
+        request.session['courseList'] = newCourseList
+        form.fields['classVal'].choices = newCourseList
+        return render(request, 'instructor/F5.html', {'lookupForm':form})
+    
+    def post(self, request):
+        if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
         form = forms.instructorQuery2(request.POST)
         form.fields['classVal'].choices = request.session.get('courseList')
         data = request.POST
@@ -76,26 +93,10 @@ def sectionStudents(request):
         else:
             fullCourse = courseSec + " - " + str(forms.SEMESTERS[semester-1][1]) + ", " + str(year)
             return render(request, 'instructor/F5.html', {'lookupForm':form, 'testVal': 1, 'rows': results, 'courseSection': fullCourse})
-            
-    else:
-        form = forms.instructorQuery2()
-        
-        # Dynamically get courses taught by the instructor logged in, don't account for year or semester
-        with connection.cursor() as cursor:
-            cursor.execute('select distinct concat(course_id, "-", sec_id) as course from teaches where teacher_id = \'{}\';'.format(request.session.get('userID')))
-            courseList = cursor.fetchall()
-        newCourseList = []
-        for course in courseList:
-            index = courseList.index(course)
-            newCourseList.append((courseList[index][0], courseList[index][0]))
-        
-        request.session['courseList'] = newCourseList
-        form.fields['classVal'].choices = newCourseList
-        return render(request, 'instructor/F5.html', {'lookupForm':form})
     
-def sectionEnrolled(request):
-    if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
-    if request.method == "POST":
+class sectionEnrolled(TemplateView):
+    def post(self, request):
+        if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
         courseSearch = forms.instructorQuery1(request.POST)
         data = request.POST
         year = data['yearVal']
@@ -110,15 +111,15 @@ def sectionEnrolled(request):
             return render(request, 'instructor/F4.html', {'lookupForm': courseSearch, 'testVal': 0, 'errorMsg': "Error: No results found"})
         else:
             return render(request, 'instructor/F4.html', {'lookupForm': courseSearch, 'testVal': 1, 'rows': results})
-    else:
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
         form = forms.instructorQuery1()
         return render(request, 'instructor/F4.html', {'lookupForm': form})
-         
+
 # Student Functions
-        
-def student(request):
-    if (request.session['userType'] != "student"): return render(request, 'main/noUser.html')
-    if request.method == "POST":
+class student(TemplateView):
+    def post(self, request):
+        if (request.session['userType'] != "student"): return render(request, 'main/noUser.html')
         courseSearch = forms.studentForm(request.POST)
         data = request.POST
         yearSearch = int(data['yearVal'])
@@ -133,26 +134,27 @@ def student(request):
             return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': 'No results found'})
         else:
             return render(request, 'student/student.html', {'lookupForm': courseSearch, 'testVal': 1, 'results': results})
-    else:
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "student"): return render(request, 'main/noUser.html')
         courseSearch = forms.studentForm()
         errorMsg = ''
         return render(request, 'student/student.html', {'lookupForm': courseSearch, 'errorMsg': errorMsg})
 
 # Admin Functions
-
-def admin(request):
-    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    if request.method == 'POST':
+class admin(TemplateView):
+    def post(self, request):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
         form = forms.adminQuerySelect(request.POST)
         if form.is_valid():
             redirectVal = int(form.cleaned_data['queryChoice'])
             return getAdminSubpage(redirectVal)
-    else:
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
         return render(request, 'admin/admin.html', {'adminChooseQuery': forms.adminQuerySelect()})
 
-def roster(request):
-    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    if request.method == "POST":
+class roster(TemplateView):
+    def post(self, request):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
         form = forms.adminForm1(request.POST)
         data = request.POST
         sortType = data['sortType']
@@ -164,22 +166,24 @@ def roster(request):
         results = models.Instructor.objects.all().order_by(sortType).values()
         return render(request, 'admin/F1.html', {'adminSortSelect': form, 'testVal': 1, 'results': results})
         
-    else:
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
         form = forms.adminForm1()
         return render(request, 'admin/F1.html', {'adminSortSelect': form})
 
-def salary(request):
-    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
+class salary(TemplateView):
+    def get(self, request):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
 
-    with connection.cursor() as cursor:
-        cursor.execute("SELECT dept_name, MIN(salary), MAX(salary), AVG(salary) FROM instructor WHERE dept_name IS NOT NULL GROUP BY dept_name")
-        instructors = cursor.fetchall()
-        
-    return render(request, 'admin/F2.html', { "rows": instructors})
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT dept_name, MIN(salary), MAX(salary), AVG(salary) FROM instructor WHERE dept_name IS NOT NULL GROUP BY dept_name")
+            instructors = cursor.fetchall()
+            
+        return render(request, 'admin/F2.html', { "rows": instructors})
     
-def preformance(request):
-    if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
-    if request.method == "POST":
+class preformance(TemplateView):
+    def post(self, request):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
         form = forms.adminForm3(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -201,7 +205,8 @@ def preformance(request):
             else:
                 error = 'Invalid Name. Please try again'
                 return render(request, 'admin/F3.html', {'adminPrefForm': forms.adminForm3(request.POST), 'errorMsg': error})
-    else:
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "admin"): return render(request, 'main/noUser.html')
         form = forms.adminForm3()
         error = ''
         return render(request, 'admin/F3.html', {'adminPrefForm': form, 'errorMsg': error})
