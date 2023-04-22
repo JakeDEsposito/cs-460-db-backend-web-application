@@ -1,6 +1,9 @@
+{% extends '../base.html' %}
+
 <!DOCTYPE html>
 <html>
     <body>
+        {% block pagecontent %}
         <h1>Login</h1>
         <form action="" onsubmit="" method="post">
             {% csrf_token %}
@@ -10,5 +13,6 @@
             <br>
             {{errorMsg}}
         </form>
+        {% endblock %}
     </body>
 </html>

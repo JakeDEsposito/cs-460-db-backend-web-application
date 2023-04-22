@@ -1,6 +1,9 @@
+{% extends '../base.html' %}
+
 <!DOCTYPE html>
 <html>
     <body>
+        {% block pagecontent %}
         <style type="text/css">
             td {
                 padding: 0 15px;
@@ -9,9 +12,7 @@
                 padding: 0 15px;
             }
         </style>
-        <form action="{% url 'index' %}" method="get" style="float: right;">
-            <button type="submit" id="back">Log Out</button>
-        </form>
+        <a href="{% url 'index' %}" style="float: right;"><button>Log Out</button></a>
         <h1>Professor Forms</h1>
         <form action="", onsubmit="", method="post">
             {% csrf_token %}
@@ -21,5 +22,6 @@
         </form>
         <hr>
         {{errorMsg}}
+        {% endblock %}
     </body>
 </html>

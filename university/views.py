@@ -4,12 +4,21 @@ from django.template import loader
 from . import forms
 from . import models
 from django.db import connection
+from django.views.generic import TemplateView
 
 # localType = request.session.get('userType')
 # localID = request.session.get('userID')
 
-def index(request):
-    if request.method == 'POST':
+class index(TemplateView):
+    def get(self, request, **kwargs):
+        form = forms.LoginForm()
+        request.session['userType'] = ''
+        request.session['userID'] = ''
+        request.session['courseList'] = ''
+        errorMsg = ''
+        return render(request, 'main/loginForm.html', {'form': form})
+    
+    def post(self, request):
         form = forms.LoginForm(request.POST)
         if form.is_valid():
             data = form.cleaned_data
@@ -24,32 +33,25 @@ def index(request):
                 
                 errorMsg = 'ERROR: Invalid Login. Please Try Again.'
                 return render(request, 'main/loginForm.html', {'form': form, 'errorMsg': errorMsg})
-           
+        
             errorMsg = 'ERROR: Invalid Syntax. Please Try Again.'
             return render(request, 'main/loginForm.html', {'form': form, 'errorMsg': errorMsg})
-    else:
-        form = forms.LoginForm()
-        request.session['userType'] = ''
-        request.session['userID'] = ''
-        request.session['courseList'] = ''
-        errorMsg = ''
-        return render(request, 'main/loginForm.html', {'form': form})
- 
+
 # Instructor Functions
-    
-def instructor(request):
-    if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
-    if request.method == "POST":
+class instructor(TemplateView):
+    def get(self, request, **kwargs):
+        if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
+
+        typeForm = forms.instructorForm()
+        return render(request, 'instructor/instructor.html', {'lookupForm': typeForm})
+    def post(self, request):
+        if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
         form = forms.instructorForm(request.POST)
         data = request.POST
         if (form.is_valid()):
             queryChoice = int(data['typeVal'])
             return getInstructorSubpage(queryChoice)
-        
-    else:
-        typeForm = forms.instructorForm()
-        return render(request, 'instructor/instructor.html', {'lookupForm': typeForm})
-    
+
 def sectionStudents(request):
     if (request.session['userType'] != "instructor"): return render(request, 'main/noUser.html')
     if request.method == "POST":

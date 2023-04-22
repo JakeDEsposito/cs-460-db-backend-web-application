@@ -1,11 +1,15 @@
+{% extends '../base.html' %}
+
 <!DOCTYPE html>
 <html>
     <body>
+        {% block pagecontent %}
         <h1>Invalid Log In</h1>
         <h2>Please try again</h2>
         <form action="{% url 'index' %}" method="get">
             <br>
             <button type="submit" id="back">Go Back</button>
         </form>
+        {% endblock %}
     </body>
 </html>
