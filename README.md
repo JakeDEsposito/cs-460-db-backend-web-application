@@ -1,17 +1,17 @@
 # *University Database Front-end*  
 # User Manual
 ## Table of Contents
-1. [General](#General)
-1. [User Guide](#User-Guide)
-	1. [Student](#Student)
-	1. [Instructor](#Instructor)
-		1. [Course Selection & Number of Students](#Course-Selection-&-Number-of-Students)
-		1. [List of Students](#List-of-Students)
-	1. [Admin](#Admin)
-		1. [Professor Sort](#Professor-Sort)
-		1. [Instructor Performance](#Instructor-Performance)
-1. [Troubleshooting](#Troubleshooting)
-	1. [Invalid Login](Invalid-Login)
+1. [General](#general)
+1. [User Guide](#user-guide)
+	1. [Student](#student)
+	1. [Instructor](#instructor)
+		1. [Course Selection & Number of Students](#course-selection-&-number-of-students)
+		1. [List of Students](#list-of-students)
+	1. [Admin](#admin)
+		1. [Professor Sort](#professor-sort)
+		1. [Instructor Performance](#instructor-performance)
+1. [Troubleshooting](#troubleshooting)
+	1. [Invalid Login](invalid-login)
 
 ## General
 Welcome to the *University Database Front-end* User Manual. Here you will find how to operate the front-end from the perspective of many different types of users such as *Admins,* *Instructors,* and *Students.* This front-end is designed to safely and securely give you access to our University's records with respect to your clearance and permission. Administrators will be given full access to all aspects of the database, while others can only view certain queries. You will also find troubleshooting for common misconceptions in the later parts of this manual.
